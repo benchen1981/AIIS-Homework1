@@ -18,7 +18,7 @@ Install: pip install streamlit numpy pandas scikit-learn plotly reportlab
 import streamlit as st
 import numpy as np
 import pandas as pd
-import plotly.graph_objects as go
+import plotly.graph_objects as graphobjects
 import plotly.express as px
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
@@ -204,8 +204,8 @@ with tabs[0]:
         model, y_pred = fit_model(degree, df)
         mse, r2 = compute_metrics(df['y'], y_pred)
 
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df['x'], y=df['y'], mode='markers', name='Data'))
+        fig = graphobjects.Figure()
+        fig.add_trace(graphobjects.Scatter(x=df['x'], y=df['y'], mode='markers', name='Data'))
         # Sort for lines
         xs = np.linspace(df['x'].min(), df['x'].max(), 200)
         if degree == 1:
@@ -215,7 +215,7 @@ with tabs[0]:
         else:
             # predict using pipeline
             ys = model.predict(xs.reshape(-1,1))
-        fig.add_trace(go.Scatter(x=xs, y=ys, mode='lines', name=f'Degree {degree} fit'))
+        fig.add_trace(graphobjects.Scatter(x=xs, y=ys, mode='lines', name=f'Degree {degree} fit'))
         fig.update_layout(title=f'Data and fitted curve (degree {degree}) — MSE={mse:.3f}, R2={r2:.3f}', height=500)
         st.plotly_chart(fig, use_container_width=True)
 
@@ -257,11 +257,11 @@ with tabs[1]:
             # draw chart for cur
             model_cur, y_pred_cur = fit_model(cur, df)
             mse_cur, r2_cur = compute_metrics(df['y'], y_pred_cur)
-            figc = go.Figure()
-            figc.add_trace(go.Scatter(x=df['x'], y=df['y'], mode='markers', name='Data'))
+            figc = graphobjects.Figure()
+            figc.add_trace(graphobjects.Scatter(x=df['x'], y=df['y'], mode='markers', name='Data'))
             xs = np.linspace(df['x'].min(), df['x'].max(), 200)
             ys = model_cur.predict(xs.reshape(-1,1))
-            figc.add_trace(go.Scatter(x=xs, y=ys, mode='lines', name=f'Degree {cur}'))
+            figc.add_trace(graphobjects.Scatter(x=xs, y=ys, mode='lines', name=f'Degree {cur}'))
             figc.update_layout(title=f'Degree {cur} — MSE={mse_cur:.3f}, R2={r2_cur:.3f}', height=480)
             comp_chart_placeholder.plotly_chart(figc, use_container_width=True)
 
@@ -284,11 +284,11 @@ with tabs[1]:
             # static display
             model_cur, y_pred_cur = fit_model(comp_deg, df)
             mse_cur, r2_cur = compute_metrics(df['y'], y_pred_cur)
-            figc = go.Figure()
-            figc.add_trace(go.Scatter(x=df['x'], y=df['y'], mode='markers', name='Data'))
+            figc = graphobjects.Figure()
+            figc.add_trace(graphobjects.Scatter(x=df['x'], y=df['y'], mode='markers', name='Data'))
             xs = np.linspace(df['x'].min(), df['x'].max(), 200)
             ys = model_cur.predict(xs.reshape(-1,1))
-            figc.add_trace(go.Scatter(x=xs, y=ys, mode='lines', name=f'Degree {comp_deg}'))
+            figc.add_trace(graphobjects.Scatter(x=xs, y=ys, mode='lines', name=f'Degree {comp_deg}'))
             figc.update_layout(title=f'Degree {comp_deg} — MSE={mse_cur:.3f}, R2={r2_cur:.3f}', height=480)
             comp_chart_placeholder.plotly_chart(figc, use_container_width=True)
             comp_prog_ph.progress(int((comp_deg-min_deg)/max(1,(max_deg-min_deg))*100))
@@ -321,9 +321,9 @@ with tabs[2]:
         colors = ['rgba(0,0,0,0.3)'] * len(df)
         for i in range(max(0, highlight_idx-5), min(len(df), highlight_idx+5)):
             colors[i] = 'rgba(255,0,0,0.9)'
-        figr = go.Figure()
-        figr.add_trace(go.Scatter(x=df['x'], y=residuals, mode='markers', marker=dict(color=colors), name='Residuals'))
-        figr.add_trace(go.Scatter(x=[df['x'].min(), df['x'].max()], y=[0,0], mode='lines', name='Zero'))
+        figr = graphobjects.Figure()
+        figr.add_trace(graphobjects.Scatter(x=df['x'], y=residuals, mode='markers', marker=dict(color=colors), name='Residuals'))
+        figr.add_trace(graphobjects.Scatter(x=[df['x'].min(), df['x'].max()], y=[0,0], mode='lines', name='Zero'))
         figr.update_layout(title=f'Residuals (degree {deg_insight})', height=500)
         st.plotly_chart(figr, use_container_width=True)
 
