@@ -14,6 +14,7 @@ Run: `streamlit run streamlit_linear_regression_app.py`
 Dependencies: streamlit, numpy, pandas, scikit-learn, plotly, reportlab
 Install: pip install streamlit numpy pandas scikit-learn plotly reportlab
 """
+pip install plotly
 
 import streamlit as st
 import numpy as np
